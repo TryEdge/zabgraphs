@@ -271,6 +271,7 @@ else {
 				</span>
 				<div id="clockx" style="text-align:right;"></div>
 				<div id="logout" style="text-align:right; margin-top:5px;">
+					<i class='fa fa-info-circle' title='Info' style='color:#fff; font-size:16px; cursor:pointer;padding-right: 10px;' onclick="alert('Version: <?php echo $version; ?> \nhttps://github.com/stdonato/zabgraphs');"></i>
 					<i class='fa fa-sign-out' title='Exit' style='color:#fff; font-size:18px; cursor:pointer;' onclick="window.open('logout.php','_self');"></i>
 				</div>
 			</li>

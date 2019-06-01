@@ -10,7 +10,7 @@ $zabURL = "http://10.20.0.1/zabbix/";
 $useridlang = get_userid(CWebUser::getSessionCookie());
 $lang = get_user_lang($useridlang);
 
-$version = '0.0.2';
+$version = '0.0.3';
 
 //Translate option: en_US or pt_BR
 $labels = include_once 'locales/'.$lang.'.php';
