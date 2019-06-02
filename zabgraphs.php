@@ -415,7 +415,7 @@ else {
 					
 					?>
 					<table id="" class="display table table-condensed table-hover" >
-					<thead>
+					<thead style="display: none;">
 						<tr>
 						<?php
 							foreach($conta as $c) {
@@ -430,12 +430,13 @@ else {
 					if(count($rows) > 1) {
 						
 						foreach ($rows as $row) {
-										
+							//insert rows to be a even number			
 							if(count($row) == 1) {
 								array_push($row,'cp');
 							}
 
 							echo "<tr>\n";
+							
 							foreach($row as $g) {	
 						
 								echo "<td>\n";
@@ -510,8 +511,7 @@ else {
 		    </div>
 		</div>
 		</div> <!-- graficos -->
-
-</div>
+	</div>
 </div>
 
 <script>
