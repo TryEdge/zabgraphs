@@ -221,7 +221,7 @@ else {
         <!-- Brand and toggle get grouped for better mobile display -->
         <div class="navbar-header" style="color:#fff;" >
             <a class="navbar-brand" href="../index.php" target="_blank">
-                <span><img src="img/zabbix.png" alt="Zabbix" style="height:28px !important; "></img></span></a>
+                <span><img src="img/zabbix.png" alt="Zabbix" style="height:24px !important; "></img></span></a>
         </div>
 		<!-- NAVBAR LEFT  -->					
 		<ul id="navbar-left" class="nav navbar-nav pull-left hidden-xs">
@@ -240,7 +240,7 @@ else {
 				<span><?php //echo $newversion; ?></span>						
 				<span class="username">				
 					<script type="text/javascript">
-					
+					/*
 						$(function($) {
 							var options = {
 							timeNotation: '24h',
@@ -259,13 +259,14 @@ else {
 						var curr_month = d.getMonth();
 						var curr_year = d.getFullYear();
 						
-						document.write("<i class='fa fa-calendar' style='color:#fff;'> </i> " + d_names + ", " + curr_date + " " + m_names + " " + curr_year );									
+						document.write("<i class='fa fa-calendar' style='color:#fff;'> </i> " + d_names + ", " + curr_date + " " + m_names + " " + curr_year );
+						*/									
 					</script> 
 				</span>
 				<div id="clockx" style="text-align:right;"></div>
-				<div id="logout" style="text-align:right; margin-top:5px;">
-					<i class='fa fa-info-circle' title='Info' style='color:#fff; font-size:16px; cursor:pointer;padding-right: 10px;' onclick="alert('Version: <?php echo $version; ?> \nhttps://github.com/stdonato/zabgraphs');"></i>
-					<i class='fa fa-sign-out' title='Exit' style='color:#fff; font-size:18px; cursor:pointer;' onclick="window.open('logout.php','_self');"></i>
+				<div id="logout" style="text-align:right; padding-top:10px;">
+					<i class='fa fa-info-circle' title='Info' style='color:#fff; font-size:16px; cursor:pointer; padding-right: 30px;' onclick="alert('Version: <?php echo $version; ?> \nhttps://github.com/stdonato/zabgraphs');"></i>
+					<i class='fa fa-sign-out' title='Exit' style='color:#fff; font-size:18px; cursor:pointer; padding-right: 15px;' onclick="window.open('logout.php','_self');"></i>
 				</div>
 			</li>
 		</ul>  																
