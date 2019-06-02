@@ -63,15 +63,17 @@ else {
 $dbGroups = DBselect( 'SELECT * FROM '.$grps.' WHERE name NOT LIKE "%Templa%" ORDER BY name ASC');
 $groupID = array();
 
-
+//get selected hosts
 if(isset($_REQUEST['hostid'])) {	
 	$hostid = explode(",",$_REQUEST['hostid']);
-	$sep = implode(",",$hostid); 	  
+	$sel_hosts = implode(",",$hostid); 	  
 }
+// case no hosts, use zabbix server by default
 else {
 	$dbZabServer = DBselect( 'SELECT hostid FROM hosts WHERE name LIKE "Zabbix server"');
 	$hostid_res = DBFetch($dbZabServer);
 	$hostid[] = $hostid_res['hostid'];
+	$sel_hosts = implode(",",$hostid); 	  
 }
 
 //time period
@@ -105,21 +107,12 @@ else {
 	}	
 }	
 
-/*else {
-	echo '<script type="text/javascript">';
-		echo 'history.back();';
-	echo '</script>';
-}*/
-
 if(isset($_REQUEST['item'])) {
 	$item = $_REQUEST['item'];
 }
 else {
 	$item = '';
-}	
-
-//https://zabbix.mpro.mp.br/zabbix/chart2.php?graphid=17101&from=2019-05-22+00%3A00%3A00&to=2019-05-31+11%3A22%3A37&profileIdx=web.graphs.filter&profileIdx2=17101&width=1720&_=tnddbwvi&screenid=
-	  
+}	  
 ?>
 
 <!DOCTYPE html>
@@ -297,15 +290,7 @@ else {
 			?>
 			
 			 <div class="tree_menu col-md-2 col-sm-2" style="margin-top: 55px; margin-left: -35px; width: 310px;">
-			     <!--<div class="">
-			         <button id="btnSave" class="btn btn-default">Show IDs</button>
-			     </div>-->
-<!--				     <div class="row" style="width: 280px;">-->
-			         <div id="tree" style="text-align: left; margin-bottom: 25px; margin-top: 5px; margin-left: 10px;"></div>
-<!--				     </div>-->
-<!--				     <div class="row">
-			         <button id="btnSave" class="btn btn-default">Show IDs</button>
-			     </div>-->
+			 	<div id="tree" style="text-align: left; margin-bottom: 25px; margin-top: 5px; margin-left: 10px;"></div>
 			 </div>
 				
 			<script type="text/javascript" >
@@ -345,48 +330,56 @@ else {
 				
 				?>		
 				],
-				       checkboxes: true
-				       });
-				       $('#btnSave').on('click', function () {
-				           var checkedIds = tree.getCheckedNodes();
-				           var search_item = document.getElementById("search_item").value;
-				           var from = document.getElementById("from").value;
-				           var to = document.getElementById("to").value;
-				           //alert(search_item);
-				           window.open('zabgraphs.php?hostid='+checkedIds+'&from='+decodeURI(from)+'&to='+decodeURI(to)+'&item='+search_item ,'_self');
-				           //window.open('zabgraphs.php?period=60m&hostid='+checkedIds+'&item='+search_item ,'_self');
-				           //window.open('zabgraphs.php?period=60m&hostid='+checkedIds+'&item=' ,'_blank');
-				       });
-				   });				
+			       checkboxes: true
+			       
+			       });
+			       $('#btnSave').on('click', function () {
+			           var checkedIds = tree.getCheckedNodes();
+			           var search_item = document.getElementById("search_item").value;
+			           var from = document.getElementById("from").value;
+			           var to = document.getElementById("to").value;
+			           var hosts = document.getElementById("hostsid").value;
+			           //alert(checkedIds);
+			           //alert('hosts: '+hosts);
+			           if (checkedIds == '') {
+			           		//hosts = checkedIds;
+			               window.open('zabgraphs.php?hostid='+hosts+'&from='+decodeURI(from)+'&to='+decodeURI(to)+'&item='+search_item ,'_self');			           	
+			           }
+			           else {
+			               window.open('zabgraphs.php?hostid='+checkedIds+'&from='+decodeURI(from)+'&to='+decodeURI(to)+'&item='+search_item ,'_self');			           	
+			           }
+			       });
+				 });				
 				</script>
 
 		<div id="graficos" class="container-fluid col-lg-10 col-md-8 col-sm-8 col-xs-6" style="margin-top:70px;">
 		
-		<div id="time" class="col-md-12 col-sm-12" >
-			<div class="dates col-lg-6 col-md-10 col-sm-12">
-				<span class="btn-group pull-left col-md-2x col-sm-2x">
-				  <button id="btnSave" type="button" class="btn btn-primary" style="margin-right: 40px;"><i class="fa fa-ok"></i>&nbsp; <?php echo $labels['Send']; ?></button>
-				</span>
+		<div id="time" class="row col-md-12 col-sm-12" style="float: left;" >
+			<div class="dates col-lg-6 col-md-10 col-sm-12 pull-left">
 				<span style="margin-top: 10px;"> 				
 				  <input id="from" type="text" name="from" class="form-control input-sm" class="field" style="width: 140px; display: inline-block; " placeholder="from" value="<?php echo $from_val; ?>" />
 				  <input id="to" type="text" name="to" class="form-control input-sm" class="field" style="width: 140px; display: inline-block; " placeholder="to" value="<?php echo $to_val; ?>" />
 				  Item: <input id="search_item" type="text" name="item" class="form-control input-sm" class="field" style="width: 130px; display: inline-block; " placeholder="ex: cpu" value="<?php echo $item; ?>"/>
+				  <input id="hostsid" type="hidden" value="<?php echo $sel_hosts; ?>" />
 				</span>  
+				<span class="btn-group">
+				  <button id="btnSave" type="button" class="btn btn-primary" style="margin-left: 20px;"><i class="fa fa-ok"></i><?php echo $labels['Send']; ?></button>
+				</span>
 			</div>
 			<div class="row col-lg-6 col-md-6  col-sm-6" id="buttons" style="margin-bottom:-60px;">
 				<span class="btn-group pull-right">
-					  <button type="button" class="btn btn-primary" onclick='location.href="zabgraphs.php?period=5m&hostid=<?php echo $sep;?>&item=<?php echo $item;?>";'>5m</button>
-		<!--			  <button type="button" class="btn btn-primary" onclick='location.href="zabgraphs.php?period=15m&hostid=<?php //echo $sep;?>&item=<?php //echo $item;?>";'>15m</button>-->
-					  <button type="button" class="btn btn-primary" onclick='location.href="zabgraphs.php?period=30m&hostid=<?php echo $sep;?>&item=<?php echo $item;?>";'>30m</button>
-					  <button type="button" class="btn btn-primary" onclick='location.href="zabgraphs.php?period=60m&hostid=<?php echo $sep;?>&item=<?php echo $item;?>";'>1h</button>
-		<!--			  <button type="button" class="btn btn-primary" onclick='location.href="zabgraphs.php?period=2h&hostid=<?php //echo $sep;?>&item=<?php //echo $item;?>";'>2h</button>-->
-					  <button type="button" class="btn btn-primary" onclick='location.href="zabgraphs.php?period=6h&hostid=<?php echo $sep;?>&item=<?php echo $item;?>";'>6h</button>
-					  <button type="button" class="btn btn-primary" onclick='location.href="zabgraphs.php?period=12h&hostid=<?php echo $sep;?>&item=<?php echo $item;?>";'>12h</button>
-					  <button type="button" class="btn btn-primary" onclick='location.href="zabgraphs.php?period=1d&hostid=<?php echo $sep;?>&item=<?php echo $item;?>";'>1d</button>
-		<!--			  <button type="button" class="btn btn-primary" onclick='location.href="zabgraphs.php?period=3d&hostid=<?php //echo $sep;?>&item=<?php //echo $item;?>";'>3d</button>-->
-					  <button type="button" class="btn btn-primary" onclick='location.href="zabgraphs.php?period=7d&hostid=<?php echo $sep;?>&item=<?php echo $item;?>";'>7d</button>
-					  <button type="button" class="btn btn-primary" onclick='location.href="zabgraphs.php?period=30d&hostid=<?php echo $sep;?>&item=<?php echo $item;?>";'>1m</button>
-		<!--			  <button type="button" class="btn btn-primary" onclick='location.href="zabgraphs.php?period=90d&hostid=<?php //echo $sep;?>&item=<?php //echo $item;?>";'>3m</button>-->
+					  <button type="button" class="btn btn-primary" onclick='location.href="zabgraphs.php?period=5m&hostid=<?php echo $sel_hosts;?>&item=<?php echo $item;?>";'>5m</button>
+		<!--			  <button type="button" class="btn btn-primary" onclick='location.href="zabgraphs.php?period=15m&hostid=<?php //echo $sel_hosts;?>&item=<?php //echo $item;?>";'>15m</button>-->
+					  <button type="button" class="btn btn-primary" onclick='location.href="zabgraphs.php?period=30m&hostid=<?php echo $sel_hosts;?>&item=<?php echo $item;?>";'>30m</button>
+					  <button type="button" class="btn btn-primary" onclick='location.href="zabgraphs.php?period=60m&hostid=<?php echo $sel_hosts;?>&item=<?php echo $item;?>";'>1h</button>
+		<!--			  <button type="button" class="btn btn-primary" onclick='location.href="zabgraphs.php?period=2h&hostid=<?php //echo $sel_hosts;?>&item=<?php //echo $item;?>";'>2h</button>-->
+					  <button type="button" class="btn btn-primary" onclick='location.href="zabgraphs.php?period=6h&hostid=<?php echo $sel_hosts;?>&item=<?php echo $item;?>";'>6h</button>
+					  <button type="button" class="btn btn-primary" onclick='location.href="zabgraphs.php?period=12h&hostid=<?php echo $sel_hosts;?>&item=<?php echo $item;?>";'>12h</button>
+					  <button type="button" class="btn btn-primary" onclick='location.href="zabgraphs.php?period=1d&hostid=<?php echo $sel_hosts;?>&item=<?php echo $item;?>";'>1d</button>
+		<!--			  <button type="button" class="btn btn-primary" onclick='location.href="zabgraphs.php?period=3d&hostid=<?php //echo $sel_hosts;?>&item=<?php //echo $item;?>";'>3d</button>-->
+					  <button type="button" class="btn btn-primary" onclick='location.href="zabgraphs.php?period=7d&hostid=<?php echo $sel_hosts;?>&item=<?php echo $item;?>";'>7d</button>
+					  <button type="button" class="btn btn-primary" onclick='location.href="zabgraphs.php?period=30d&hostid=<?php echo $sel_hosts;?>&item=<?php echo $item;?>";'>1m</button>
+		<!--			  <button type="button" class="btn btn-primary" onclick='location.href="zabgraphs.php?period=90d&hostid=<?php //echo $sel_hosts;?>&item=<?php //echo $item;?>";'>3m</button>-->
 				</span>
 			</div>
 		</div>
@@ -417,10 +410,8 @@ else {
 						$rows = array_chunk($graphs,1);
 						$conta = [1];
 					}
-					//api com array_keys
-					//$graphs = $api->graphGet(array(), 'name');
-					
-					echo "<h4 style='color:#000 !important; float:none; margin-right:auto; margin-left:auto; margin-bottom: 6px; margin-top:35px;' class='well well-sm'> ".get_hostname($h)."</h4>\n";
+				
+					echo "<h5 style='display:block; color:#000 !important; float:none; margin-right:auto; margin-left:auto; margin-bottom: 6px; margin-top:35px;' class='well well-sm'> ".get_hostname($h)."</h5>\n";
 					
 					?>
 					<table id="" class="display table table-condensed table-hover" >
@@ -443,10 +434,7 @@ else {
 							if(count($row) == 1) {
 								array_push($row,'cp');
 							}
-							/*if(count($row) == 2) {
-								array_push($row,'cp');
-							}	*/		
-							
+
 							echo "<tr>\n";
 							foreach($row as $g) {	
 						
@@ -500,7 +488,7 @@ else {
 		        <div class="modal-content" style="width:1200px;">
 		            <div class="modal-header">
 		                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span><span class="sr-only">Close</span></button>
-		                <h4 class="modal-title" id="image-gallery-title"></h4>
+		                <h5 class="modal-title" id="image-gallery-title"></h5>
 		            </div>
 		            <div class="modal-body">
 		                <img id="image-gallery-image" class="img-responsive" src="">
@@ -534,8 +522,8 @@ $(document).ready(function() {
         "ordering": false,
         "info":     true,
         "searching":   false,
-      //  "scrollY":     '55vh',
-      //  "scrollCollapse": true,
+        //"scrollY":     '65vh',
+        //"scrollCollapse": true,
         "lengthMenu": [[2, 5, 10, 25, 50, -1], [2, 5, 10, 25, 50, "All"]],
         "dom": '<"top"<"clear">>rt<"bottom"iflp<"clear">>'
     } ); 

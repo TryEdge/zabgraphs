@@ -493,7 +493,6 @@ h4 {
 	padding-left: 10px;
 	height: 37px;
 	border-radius: 4px 0 0 4px;
-	-moz-border-radius: 4px 0 0 4px;
 	border-radius: 4px 0 0 4px;
 	margin-bottom: 3px;
 	-webkit-transition: all .5s;
@@ -542,7 +541,7 @@ h4 {
 
 
 /* responsive */
-@media (max-width: 1020px) {
+/*@media (max-width: 1020px) {
 	.content {
 		margin-left: 65px;
 	}
@@ -609,8 +608,8 @@ h4 {
 		left: 0;
 		height: 100%;
 	}
-}
-
+}*/
+/*
 @media screen and (max-width: 1200px){
   .iframe1 {
     width: 100%;
@@ -621,7 +620,7 @@ h4 {
   .iframe1 {
     width: 86%;
   }
-}
+}*/
 
 /*
 .up_down {
