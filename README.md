@@ -6,7 +6,7 @@
 
 3 - Edit config.php with your server settings;
 
-4 - Access URL http://your zabbix server/zabbix/zabgraphs;
+4 - Access URL http://your_zabbix_server/zabbix/zabgraphs;
 
 
 To add a menu item for ZabGraphs see README.txt file in menu folder.
