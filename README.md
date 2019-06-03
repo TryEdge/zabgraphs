@@ -5,21 +5,24 @@
 
 ## Installation
 
+1 - Copy zabgraphs folder to Zabbix folder (/usr/share/zabbix);
+
+2 - Copy config.php.sample to config.php;
+
+3 - Edit config.php with your server settings;
+
+4 - Access URL http://your_zabbix_server/zabbix/zabgraphs;
 
 
-## Usage example
+To add a menu item for ZabGraphs see README.txt file in menu folder.
 
-A few motivating and useful examples of how your product can be used. Spice this up with code blocks and potentially more screenshots.
 
-_For more examples and usage, please refer to the [Wiki][wiki]._
+Zabbix API Needs php-posix:
 
-## Meta
+In debian/ubuntu is in php-common package.
+yum install php-process - redhat/centos
+zypper install php-posix - OpenSuse
 
-Your Name – [@YourTwitter](https://twitter.com/dbader_org) – YourEmail@example.com
-
-Distributed under the XYZ license. See ``LICENSE`` for more information.
-
-[https://github.com/yourname/github-link](https://github.com/dbader/)
 
 ## Contributing
 
