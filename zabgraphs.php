@@ -63,6 +63,21 @@ else {
 $dbGroups = DBselect( 'SELECT * FROM '.$grps.' WHERE name NOT LIKE "%Templa%" ORDER BY name ASC');
 $groupID = array();
 
+if(isset($_REQUEST['search']) AND $_REQUEST['search'] != '') {
+	$search = $_REQUEST['search'];
+	$dbHostsname = DBselect ('SELECT DISTINCT g.groupid AS grid FROM hosts h, hosts_groups hg, hstgrp g WHERE h.status = 0 AND h.hostid = hg.hostid AND hg.groupid = g.groupid AND h.name LIKE "%'.$search.'%" ORDER BY grid ASC');
+	$hostsnames = array();
+	
+	while($row = DBFetch($dbHostsname)){
+		$groupID[] = $row['grid'];
+	}
+}
+	else {
+	while ($groups = DBFetch($dbGroups)) {		
+		$groupID[] = $groups['groupid'];										
+	}	
+}
+
 //get selected hosts
 if(isset($_REQUEST['hostid'])) {	
 	$hostid = explode(",",$_REQUEST['hostid']);
@@ -118,7 +133,7 @@ else {
 <!DOCTYPE html>
 <html>
 <head>
-    <title>ZabGraphs - Home</title>
+    <title>ZabGraphs: Home</title>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 	 <meta http-equiv="Pragma" content="public">
@@ -221,7 +236,7 @@ else {
         <!-- Brand and toggle get grouped for better mobile display -->
         <div class="navbar-header" style="color:#fff;" >
             <a class="navbar-brand" href="../index.php" target="_blank">
-                <span><img src="img/zabbix.png" alt="Zabbix" style="height:24px !important; "></img></span></a>
+            <span><img src="img/zabbix.png" alt="Zabbix" style="height:24px !important; "></img></span></a>
         </div>
 		<!-- NAVBAR LEFT  -->					
 		<ul id="navbar-left" class="nav navbar-nav pull-left hidden-xs">
@@ -239,34 +254,11 @@ else {
 			<li id="header-user" class="user" style="color:#FFF; margin-top: 8px; margin-right:8px;">
 				<span><?php //echo $newversion; ?></span>						
 				<span class="username">				
-					<script type="text/javascript">
-					/*
-						$(function($) {
-							var options = {
-							timeNotation: '24h',
-							am_pm: true,
-							fontSize: '12px'
-						}
-							$('#clock').jclock(options);
-						});
-												
-						var d_names = <?php echo '"'.$dia.'"' ; ?>;
-						var m_names = <?php echo '"'.$mes.'"' ; ?>;
-						
-						var d = new Date();
-						var curr_day = d.getDay();
-						var curr_date = d.getDate();
-						var curr_month = d.getMonth();
-						var curr_year = d.getFullYear();
-						
-						document.write("<i class='fa fa-calendar' style='color:#fff;'> </i> " + d_names + ", " + curr_date + " " + m_names + " " + curr_year );
-						*/									
-					</script> 
 				</span>
 				<div id="clockx" style="text-align:right;"></div>
 				<div id="logout" style="text-align:right; padding-top:10px;">
 					<i class='fa fa-info-circle' title='Info' style='color:#fff; font-size:16px; cursor:pointer; padding-right: 30px;' onclick="alert('Version: <?php echo $version; ?> \nhttps://github.com/stdonato/zabgraphs');"></i>
-					<i class='fa fa-sign-out' title='Exit' style='color:#fff; font-size:18px; cursor:pointer; padding-right: 15px;' onclick="window.open('logout.php','_self');"></i>
+					<i class='fa fa-power-off' title='Exit' style='color:#fff; font-size:18px; cursor:pointer; padding-right: 15px;' onclick="window.open('logout.php','_self');"></i>
 				</div>
 			</li>
 		</ul>  																
@@ -283,15 +275,21 @@ else {
       </div>
       <!-- /.navbar-collapse -->                         
      </nav>
-			
-			<?php
-				while ($groups = DBFetch($dbGroups)) {
-					$groupID[] = $groups['groupid'];										
-				}							
-			?>
-			
-			 <div class="tree_menu col-md-2 col-sm-2" style="margin-top: 55px; margin-left: -35px; width: 310px;">
-			 	<div id="tree" style="text-align: left; margin-bottom: 25px; margin-top: 5px; margin-left: 10px;"></div>
+					
+			 <div class="tree_menu col-md-2 col-sm-2" style="margin-top: 60px; margin-left: -5px; width: 290px;">
+				<div id="host_search" class="row" style="width: 250px !important;">
+					<div class="input-group" style="padding-left: 10px;" >
+						<input id="search_hosts" type="text" name="search_host" style="width: 230px;" placeholder="Pesquisar hosts" class="form-control" value="<?php echo $search; ?>">
+						<span class="input-group-btn" style="float: left;" >						
+							<button class="btn btn-primary btn-sm" type="submit" name="btnSearch" id="btnSearch" >
+								<i class="fa fa-search"></i>
+							</button>
+						</span>
+					</div>	
+				</div>
+				<div class="row">
+					<div id="tree" style="text-align: left; margin-bottom: 25px;"></div>
+				</div>
 			 </div>
 				
 			<script type="text/javascript" >
@@ -308,7 +306,16 @@ else {
 					
 					$dbGroups = DBselect( 'SELECT groupid, name FROM hstgrp WHERE groupid ='.$g );
 					$dbHostsCount = DBselect( 'SELECT COUNT(h.hostid) AS conta FROM hosts h, hosts_groups hg, hstgrp g WHERE h.status = 0 AND h.hostid = hg.hostid AND hg.groupid = g.groupid AND g.groupid ='. $g.' ORDER BY h.name ASC' );
-					$dbHosts = DBselect( 'SELECT DISTINCT h.hostid AS hostid, h.name AS hostname, g.name AS grname, g.groupid AS grid FROM hosts h, hosts_groups hg, hstgrp g WHERE h.status = 0 AND h.hostid = hg.hostid AND hg.groupid = g.groupid AND g.groupid ='. $g.' ORDER BY h.name ASC' );
+					//$dbHosts = DBselect( 'SELECT DISTINCT h.hostid AS hostid, h.name AS hostname, g.name AS grname, g.groupid AS grid FROM hosts h, hosts_groups hg, hstgrp g WHERE h.status = 0 AND h.hostid = hg.hostid AND hg.groupid = g.groupid AND g.groupid ='. $g.' ORDER BY h.name ASC' );
+					
+					if($search == '') {			
+						$dbHosts = DBselect( 'SELECT DISTINCT h.hostid AS hostid, h.name AS hostname, g.name AS grname, g.groupid AS grid FROM hosts h, hosts_groups hg, hstgrp g WHERE h.status = 0 AND h.hostid = hg.hostid AND hg.groupid = g.groupid AND g.groupid ='. $g.' ORDER BY h.name ASC' );
+						$dbHostsCount = DBselect( 'SELECT COUNT(h.hostid) AS conta FROM hosts h, hosts_groups hg, hstgrp g WHERE h.status = 0 AND h.hostid = hg.hostid AND hg.groupid = g.groupid AND g.groupid ='. $g.'');
+					}
+					else {		
+						$dbHosts = DBselect( 'SELECT DISTINCT h.hostid AS hostid, h.name AS hostname, g.name AS grname, g.groupid AS grid FROM hosts h, hosts_groups hg, hstgrp g WHERE h.status = 0 AND h.hostid = hg.hostid AND hg.groupid = g.groupid AND g.groupid ='. $g.' AND h.name LIKE "%'.$search.'%" ORDER BY h.name ASC' );
+						$dbHostsCount = DBselect( 'SELECT COUNT(h.hostid) AS conta FROM hosts h, hosts_groups hg, hstgrp g WHERE h.status = 0 AND h.hostid = hg.hostid AND hg.groupid = g.groupid AND g.groupid ='. $g.' AND h.name LIKE "%'.$search.'%"' );
+					}
 				
 					$groups = DBFetch($dbGroups);
 					$hostscount = DBFetch($dbHostsCount);
@@ -340,16 +347,23 @@ else {
 			           var from = document.getElementById("from").value;
 			           var to = document.getElementById("to").value;
 			           var hosts = document.getElementById("hostsid").value;
+			           var search = document.getElementById("search_hosts").value;
 			           //alert(checkedIds);
 			           //alert('hosts: '+hosts);
-			           if (checkedIds == '') {
-			           		//hosts = checkedIds;
-			               window.open('zabgraphs.php?hostid='+hosts+'&from='+decodeURI(from)+'&to='+decodeURI(to)+'&item='+search_item ,'_self');			           	
+			           if (checkedIds == '') {			           		
+			               window.open('zabgraphs.php?hostid='+hosts+'&from='+decodeURI(from)+'&to='+decodeURI(to)+'&item='+search_item+'&search='+search ,'_self');			           	
 			           }
 			           else {
-			               window.open('zabgraphs.php?hostid='+checkedIds+'&from='+decodeURI(from)+'&to='+decodeURI(to)+'&item='+search_item ,'_self');			           	
+			               window.open('zabgraphs.php?hostid='+checkedIds+'&from='+decodeURI(from)+'&to='+decodeURI(to)+'&item='+search_item+'&search='+search ,'_self');			           	
 			           }
 			       });
+
+					$('#btnSearch').on('click', function () {					        
+					        var search = document.getElementById("search_hosts").value;
+					        //alert(search);					        
+					        window.open('zabgraphs.php?search='+search ,'_self');
+					 }); 		       			       
+			       
 				 });				
 				</script>
 
@@ -369,23 +383,19 @@ else {
 			</div>
 			<div class="row col-lg-6 col-md-6  col-sm-6" id="buttons" style="margin-bottom:-60px;">
 				<span class="btn-group pull-right">
-					  <button type="button" class="btn btn-primary" onclick='location.href="zabgraphs.php?period=5m&hostid=<?php echo $sel_hosts;?>&item=<?php echo $item;?>";'>5m</button>
-		<!--			  <button type="button" class="btn btn-primary" onclick='location.href="zabgraphs.php?period=15m&hostid=<?php //echo $sel_hosts;?>&item=<?php //echo $item;?>";'>15m</button>-->
-					  <button type="button" class="btn btn-primary" onclick='location.href="zabgraphs.php?period=30m&hostid=<?php echo $sel_hosts;?>&item=<?php echo $item;?>";'>30m</button>
-					  <button type="button" class="btn btn-primary" onclick='location.href="zabgraphs.php?period=60m&hostid=<?php echo $sel_hosts;?>&item=<?php echo $item;?>";'>1h</button>
-		<!--			  <button type="button" class="btn btn-primary" onclick='location.href="zabgraphs.php?period=2h&hostid=<?php //echo $sel_hosts;?>&item=<?php //echo $item;?>";'>2h</button>-->
-					  <button type="button" class="btn btn-primary" onclick='location.href="zabgraphs.php?period=6h&hostid=<?php echo $sel_hosts;?>&item=<?php echo $item;?>";'>6h</button>
-					  <button type="button" class="btn btn-primary" onclick='location.href="zabgraphs.php?period=12h&hostid=<?php echo $sel_hosts;?>&item=<?php echo $item;?>";'>12h</button>
-					  <button type="button" class="btn btn-primary" onclick='location.href="zabgraphs.php?period=1d&hostid=<?php echo $sel_hosts;?>&item=<?php echo $item;?>";'>1d</button>
-		<!--			  <button type="button" class="btn btn-primary" onclick='location.href="zabgraphs.php?period=3d&hostid=<?php //echo $sel_hosts;?>&item=<?php //echo $item;?>";'>3d</button>-->
-					  <button type="button" class="btn btn-primary" onclick='location.href="zabgraphs.php?period=7d&hostid=<?php echo $sel_hosts;?>&item=<?php echo $item;?>";'>7d</button>
-					  <button type="button" class="btn btn-primary" onclick='location.href="zabgraphs.php?period=30d&hostid=<?php echo $sel_hosts;?>&item=<?php echo $item;?>";'>1m</button>
-		<!--			  <button type="button" class="btn btn-primary" onclick='location.href="zabgraphs.php?period=90d&hostid=<?php //echo $sel_hosts;?>&item=<?php //echo $item;?>";'>3m</button>-->
+					  <button type="button" class="btn btn-primary" onclick='location.href="zabgraphs.php?period=5m&hostid=<?php echo $sel_hosts;?>&item=<?php echo $item;?>&search=<?php echo $search; ?>";'>5m</button>		
+					  <button type="button" class="btn btn-primary" onclick='location.href="zabgraphs.php?period=30m&hostid=<?php echo $sel_hosts;?>&item=<?php echo $item;?>&search=<?php echo $search; ?>";'>30m</button>
+					  <button type="button" class="btn btn-primary" onclick='location.href="zabgraphs.php?period=60m&hostid=<?php echo $sel_hosts;?>&item=<?php echo $item;?>&search=<?php echo $search; ?>";'>1h</button>		
+					  <button type="button" class="btn btn-primary" onclick='location.href="zabgraphs.php?period=6h&hostid=<?php echo $sel_hosts;?>&item=<?php echo $item;?>&search=<?php echo $search; ?>";'>6h</button>
+					  <button type="button" class="btn btn-primary" onclick='location.href="zabgraphs.php?period=12h&hostid=<?php echo $sel_hosts;?>&item=<?php echo $item;?>&search=<?php echo $search; ?>";'>12h</button>
+					  <button type="button" class="btn btn-primary" onclick='location.href="zabgraphs.php?period=1d&hostid=<?php echo $sel_hosts;?>&item=<?php echo $item;?>&search=<?php echo $search; ?>";'>1d</button>		
+					  <button type="button" class="btn btn-primary" onclick='location.href="zabgraphs.php?period=7d&hostid=<?php echo $sel_hosts;?>&item=<?php echo $item;?>&search=<?php echo $search; ?>";'>7d</button>
+					  <button type="button" class="btn btn-primary" onclick='location.href="zabgraphs.php?period=30d&hostid=<?php echo $sel_hosts;?>&item=<?php echo $item;?>&search=<?php echo $search; ?>";'>1m</button>		
 				</span>
 			</div>
 		</div>
 		
-		<div id="graphs" class="" style="margin-top:10px; margin-bottom: 50px; float:none; margin-right:auto; margin-left:auto; text-align:center;">	
+		<div id="graphs" class="" style="margin-top:10px; margin-bottom: 50px; float:none; margin-right:auto; margin-left:auto; text-align:center; padding-left: 15px;">	
 			
 			<div class='row'>
 				<?php		
