@@ -1,5 +1,5 @@
 # ZabGraphs
-> Based on graphtree fo Zabbix, permit easy access to all graphs of a host, hosts or host group.
+> Based on [Graphtrees](https://share.zabbix.com/zabbix-tools-and-utilities/web-addons/graphtree-for-zabbix) for Zabbix, permit easy access to all graphs of a host, hosts or host group.
 
 ![](https://repository-images.githubusercontent.com/189693207/0b4ecb00-85ec-11e9-8c44-8aa5c1fb7d94)
 
