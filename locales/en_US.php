@@ -79,7 +79,8 @@ return array(
 'Back' => 'Back',
 'Unacknowledged' => 'Unacknowledged',
 'Acknowledged' => 'Acknowledged',
-'Send' => 'Send'
+'Send' => 'Send',
+'Host search' => 'Host search'
 
 );
 ?> 

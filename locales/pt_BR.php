@@ -79,7 +79,8 @@ return array(
 'Back' => 'Voltar',
 'Unacknowledged' => 'Não Reconhecido',
 'Acknowledged' => 'Reconhecido',
-'Send' => 'Enviar'
+'Send' => 'Enviar',
+'Host search' => 'Pesquisa por host'
 
 );
 ?> 
