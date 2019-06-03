@@ -207,18 +207,18 @@ else {
 		}
  	 </script>
 
-<style type="text/css">
-	.loader { height: 110% !important;}
-</style>
-
-<link href="css/loader.css" type="text/css" rel="stylesheet" />
-
-<script type="text/javascript">
-	jQuery(window).load(function () {
-		$(".loader").fadeOut("slow"); //retire o delay quando for copiar!  delay(1500).
-		$("#container-fluid").toggle("fast");    
-	});
-</script>
+	<style type="text/css">
+		.loader { height: 110% !important;}
+	</style>
+	
+	<link href="css/loader.css" type="text/css" rel="stylesheet" />
+	
+	<script type="text/javascript">
+		jQuery(window).load(function () {
+			$(".loader").fadeOut("slow"); //retire o delay quando for copiar!  delay(1500).
+			$("#container-fluid").toggle("fast");    
+		});
+	</script>
  	  	 
 </head>
 
