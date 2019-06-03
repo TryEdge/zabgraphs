@@ -279,7 +279,7 @@ else {
 			 <div class="tree_menu col-md-2 col-sm-2" style="margin-top: 60px; margin-left: -5px; width: 290px;">
 				<div id="host_search" class="row" style="width: 250px !important;">
 					<div class="input-group" style="padding-left: 10px;" >
-						<input id="search_hosts" type="text" name="search_host" style="width: 230px;" placeholder="Pesquisar hosts" class="form-control" value="<?php echo $search; ?>">
+						<input id="search_hosts" type="text" name="search_host" style="width: 230px;" placeholder="<?php echo $labels['Host search']; ?>" class="form-control" value="<?php echo $search; ?>">
 						<span class="input-group-btn" style="float: left;" >						
 							<button class="btn btn-primary btn-sm" type="submit" name="btnSearch" id="btnSearch" >
 								<i class="fa fa-search"></i>
