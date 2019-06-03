@@ -23,10 +23,18 @@
 4 - Access URL http://your_zabbix_server/zabbix/zabgraphs;
 
 
-To add a menu item for ZabGraphs see README.txt file in menu folder.
+
+#### To add a menu item for ZabGraphs on Zabbix:
+
+- Make a copy of /usr/share/zabbix/include/menu.inc.php file.
+
+- Copy the file "menu/menu.inc.php" for your zabbix include folder (/usr/share/zabbix/include).
+
+![](https://user-images.githubusercontent.com/7674445/58826754-647c2600-860f-11e9-8af7-aab1e50510f9.png)
 
 
-##### Zabbix API Needs php-posix:
+
+#### Zabbix API Needs php-posix:
 
 apt-get install php-common - ubuntu/debian
 
