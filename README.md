@@ -30,7 +30,7 @@
 
 - Copy the file "menu/menu.inc.php" for your zabbix include folder (/usr/share/zabbix/include).
 
-![](https://user-images.githubusercontent.com/7674445/58826754-647c2600-860f-11e9-8af7-aab1e50510f9.png)
+![](https://user-images.githubusercontent.com/7674445/58826988-fa17b580-860f-11e9-83ab-af72303cb9fa.png)
 
 
 
