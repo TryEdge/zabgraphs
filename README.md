@@ -26,10 +26,12 @@
 To add a menu item for ZabGraphs see README.txt file in menu folder.
 
 
-Zabbix API Needs php-posix:
+##### Zabbix API Needs php-posix:
 
 apt-get install php-common - ubuntu/debian
+
 yum install php-process - redhat/centos
+
 zypper install php-posix - OpenSuse
 
 
