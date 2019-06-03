@@ -3,6 +3,12 @@
 
 ![](https://repository-images.githubusercontent.com/189693207/0b4ecb00-85ec-11e9-8c44-8aa5c1fb7d94)
 
+- View all graphs of host
+- View all graphs os hosts group
+- Use the Item field for show specific items graphs like CPU, Disk, network traffic, ping, etc, for one or multiple hosts.
+- Use search bar to filter hosts.
+
+
 ## Installation
 
 1 - Copy zabgraphs folder to Zabbix folder (/usr/share/zabbix);
