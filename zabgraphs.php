@@ -137,7 +137,7 @@ else {
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 	 <meta http-equiv="Pragma" content="public">
-<!--    <meta http-equiv="refresh" content= "600"/>-->
+    <meta http-equiv="refresh" content= "600"/>
     
     <link rel="icon" href="img/favicon.ico" type="image/x-icon" />
 	 <link rel="shortcut icon" href="img/favicon.ico" type="image/x-icon" />    
@@ -215,7 +215,7 @@ else {
 	
 	<script type="text/javascript">
 		jQuery(window).load(function () {
-			$(".loader").fadeOut("slow"); //retire o delay quando for copiar!  delay(1500).
+			$(".loader").fadeOut("slow"); 
 			$("#container-fluid").toggle("fast");    
 		});
 	</script>
@@ -234,7 +234,7 @@ else {
         </a>
 
         <!-- Brand and toggle get grouped for better mobile display -->
-        <div class="navbar-header" style="color:#fff; background-color: #0a466a;" >
+        <div class="navbar-header" style="color:#fff;" >
             <a class="navbar-brand" href="../index.php" target="_blank">
             <span><img src="img/zabbix.png" alt="Zabbix" style="height:24px !important; "></img></span></a>
         </div>
