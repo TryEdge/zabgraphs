@@ -234,7 +234,7 @@ else {
         </a>
 
         <!-- Brand and toggle get grouped for better mobile display -->
-        <div class="navbar-header" style="color:#fff;" >
+        <div class="navbar-header" style="color:#fff; background-color: #0a466a;" >
             <a class="navbar-brand" href="../index.php" target="_blank">
             <span><img src="img/zabbix.png" alt="Zabbix" style="height:24px !important; "></img></span></a>
         </div>
