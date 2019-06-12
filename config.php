@@ -12,6 +12,6 @@ $useridlang = get_userid(CWebUser::getSessionCookie());
 $lang = get_user_lang($useridlang);
 $labels = include_once 'locales/'.$lang.'.php';
 
-$version = '0.0.4';
+$version = '0.0.5';
 
 ?>
