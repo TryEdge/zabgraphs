@@ -65,7 +65,7 @@ $groupID = array();
 
 if(isset($_REQUEST['search']) AND $_REQUEST['search'] != '') {
 	$search = $_REQUEST['search'];
-	$dbHostsname = DBselect ('SELECT DISTINCT g.groupid AS grid FROM hosts h, hosts_groups hg, hstgrp g WHERE h.status = 0 AND h.hostid = hg.hostid AND hg.groupid = g.groupid AND h.name LIKE "%'.$search.'%" ORDER BY grid ASC');
+	$dbHostsname = DBselect ('SELECT DISTINCT g.groupid AS grid FROM hosts h, hosts_groups hg, '.$grps.' g WHERE h.status = 0 AND h.hostid = hg.hostid AND hg.groupid = g.groupid AND h.name LIKE "%'.$search.'%" ORDER BY grid ASC');
 	$hostsnames = array();
 	
 	while($row = DBFetch($dbHostsname)){
@@ -304,17 +304,17 @@ else {
 				
 				foreach( $groupID as $g ) {
 					
-					$dbGroups = DBselect( 'SELECT groupid, name FROM hstgrp WHERE groupid ='.$g );
-					$dbHostsCount = DBselect( 'SELECT COUNT(h.hostid) AS conta FROM hosts h, hosts_groups hg, hstgrp g WHERE h.status = 0 AND h.hostid = hg.hostid AND hg.groupid = g.groupid AND g.groupid ='. $g.' ORDER BY h.name ASC' );
+					$dbGroups = DBselect( 'SELECT groupid, name FROM '.$grps.' WHERE groupid ='.$g );
+					$dbHostsCount = DBselect( 'SELECT COUNT(h.hostid) AS conta FROM hosts h, hosts_groups hg, '.$grps.' g WHERE h.status = 0 AND h.hostid = hg.hostid AND hg.groupid = g.groupid AND g.groupid ='. $g.' ORDER BY h.name ASC' );
 					//$dbHosts = DBselect( 'SELECT DISTINCT h.hostid AS hostid, h.name AS hostname, g.name AS grname, g.groupid AS grid FROM hosts h, hosts_groups hg, hstgrp g WHERE h.status = 0 AND h.hostid = hg.hostid AND hg.groupid = g.groupid AND g.groupid ='. $g.' ORDER BY h.name ASC' );
 					
 					if($search == '') {			
-						$dbHosts = DBselect( 'SELECT DISTINCT h.hostid AS hostid, h.name AS hostname, g.name AS grname, g.groupid AS grid FROM hosts h, hosts_groups hg, hstgrp g WHERE h.status = 0 AND h.hostid = hg.hostid AND hg.groupid = g.groupid AND g.groupid ='. $g.' ORDER BY h.name ASC' );
-						$dbHostsCount = DBselect( 'SELECT COUNT(h.hostid) AS conta FROM hosts h, hosts_groups hg, hstgrp g WHERE h.status = 0 AND h.hostid = hg.hostid AND hg.groupid = g.groupid AND g.groupid ='. $g.'');
+						$dbHosts = DBselect( 'SELECT DISTINCT h.hostid AS hostid, h.name AS hostname, g.name AS grname, g.groupid AS grid FROM hosts h, hosts_groups hg, '.$grps.' g WHERE h.status = 0 AND h.hostid = hg.hostid AND hg.groupid = g.groupid AND g.groupid ='. $g.' ORDER BY h.name ASC' );
+						$dbHostsCount = DBselect( 'SELECT COUNT(h.hostid) AS conta FROM hosts h, hosts_groups hg, '.$grps.' g WHERE h.status = 0 AND h.hostid = hg.hostid AND hg.groupid = g.groupid AND g.groupid ='. $g.'');
 					}
 					else {		
-						$dbHosts = DBselect( 'SELECT DISTINCT h.hostid AS hostid, h.name AS hostname, g.name AS grname, g.groupid AS grid FROM hosts h, hosts_groups hg, hstgrp g WHERE h.status = 0 AND h.hostid = hg.hostid AND hg.groupid = g.groupid AND g.groupid ='. $g.' AND h.name LIKE "%'.$search.'%" ORDER BY h.name ASC' );
-						$dbHostsCount = DBselect( 'SELECT COUNT(h.hostid) AS conta FROM hosts h, hosts_groups hg, hstgrp g WHERE h.status = 0 AND h.hostid = hg.hostid AND hg.groupid = g.groupid AND g.groupid ='. $g.' AND h.name LIKE "%'.$search.'%"' );
+						$dbHosts = DBselect( 'SELECT DISTINCT h.hostid AS hostid, h.name AS hostname, g.name AS grname, g.groupid AS grid FROM hosts h, hosts_groups hg, '.$grps.' g WHERE h.status = 0 AND h.hostid = hg.hostid AND hg.groupid = g.groupid AND g.groupid ='. $g.' AND h.name LIKE "%'.$search.'%" ORDER BY h.name ASC' );
+						$dbHostsCount = DBselect( 'SELECT COUNT(h.hostid) AS conta FROM hosts h, hosts_groups hg, '.$grps.' g WHERE h.status = 0 AND h.hostid = hg.hostid AND hg.groupid = g.groupid AND g.groupid ='. $g.' AND h.name LIKE "%'.$search.'%"' );
 					}
 				
 					$groups = DBFetch($dbGroups);
