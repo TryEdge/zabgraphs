@@ -11,6 +11,7 @@
 
 ![](https://user-images.githubusercontent.com/7674445/58826320-74dfd100-860e-11e9-90e2-ca2c09816038.png)
 
+## Tested only in Zabbix 4
 
 ## Installation
 
