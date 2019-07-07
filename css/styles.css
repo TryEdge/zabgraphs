@@ -1081,6 +1081,7 @@ img.avatar2 {
 	  margin-top: 0px;
 	  width:100%;
   }
+
 }
 
 /*@media screen and (min-width: 1024px) {*/
@@ -1536,7 +1537,7 @@ a {
 
 @media screen and (min-width: 1501px) and (max-width: 1600px) {
 	#graficos {
-		width: 1200px;
+		width: 1190px;
 	}	
 }
 
@@ -1610,6 +1611,10 @@ a {
     height:75px;
     font-size: 24pt;
     color:black
+  }
+  
+  .dataTables_paginate, .dataTables_length {
+		display:none !important;  
   }
 }
 
