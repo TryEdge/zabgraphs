@@ -85,7 +85,8 @@ if(isset($_REQUEST['hostid'])) {
 }
 // case no hosts, use zabbix server by default
 else {
-	$dbZabServer = DBselect( 'SELECT hostid FROM hosts WHERE name LIKE "Zabbix server"');
+	//$dbZabServer = DBselect( 'SELECT hostid FROM hosts WHERE name LIKE "Zabbix server"');
+	$dbZabServer = DBselect( 'SELECT hostid FROM hosts WHERE name NOT LIKE "%Templa%" ORDER by hostid ASC LIMIT 1');
 	$hostid_res = DBFetch($dbZabServer);
 	$hostid[] = $hostid_res['hostid'];
 	$sel_hosts = implode(",",$hostid); 	  
