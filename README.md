@@ -1,3 +1,11 @@
+# Announcement:
+
+I'm suspending the development of my add-ons due the change new Zabbix 5.x to MVC. The new structure demands a large rewrite of code, which i can't do at moment.
+
+
+Estou suspendendo o desenvolvimento dos meus complementos devido à mudança do novo Zabbix 5.x para o desenvolvimento MVC. A nova estrutura exige uma grande reescrita de código, o que não posso fazer no momento.
+
+
 # ZabGraphs
 > Based on [Graphtrees](https://share.zabbix.com/zabbix-tools-and-utilities/web-addons/graphtree-for-zabbix) for Zabbix, permits easy access to all graphs of a host, hosts or host group.
 
